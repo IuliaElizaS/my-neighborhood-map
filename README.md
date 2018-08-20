@@ -38,7 +38,10 @@ For this project there is no starting code. The students have to build the app f
 - Marker icons: https://png.icons8.com
 
 - MapContainer component addapted from: https://www.npmjs.com/package/google-maps-react
-and https://www.fullstackreact.com/articles/how-to-write-a-google-maps-react-component/
+
+ https://www.fullstackreact.com/articles/how-to-write-a-google-maps-react-component/
+
+and https://developers.google.com/maps/documentation/javascript/examples/hiding-features
 
 - Map accessibility guidelines: http://web-accessibility.carnegiemuseums.org/content/maps/
 

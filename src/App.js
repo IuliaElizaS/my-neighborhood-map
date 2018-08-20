@@ -8,10 +8,6 @@ import './App.css';
 class App extends Component {
   state = {
       mapMarkers: [],// all the markers
-      museums: [], //museums markers
-      parks: [],//parks markers
-      cinemas: [],//cinema markers
-      theaters: [],//theaters markers
       showInfoWindow: false, //state of the Info Window: false if closed, true if opened
       selectedMarker: {},//the selected marker object
       iconURL: "https://png.icons8.com/ultraviolet/40/000000/marker.png",// the icon for the marker on the map
@@ -21,95 +17,18 @@ class App extends Component {
 
   //fetches the places to be marked on the map using foursquareAPI
   fetchPlaces = () => {
-      this.fetchMuseums();
-      this.fetchCinemas();
-      this.fetchParks();
-      this.fetchTheaters();
+    fetch('https://api.foursquare.com/v2/venues/search?ll=47.6507275,23.5765156&intent=browse&radius=1800&limit=40&categoryId=4bf58dd8d48988d181941735,4bf58dd8d48988d137941735,4bf58dd8d48988d184941735,4bf58dd8d48988d15e941735,4bf58dd8d48988d163941735&client_id=3T544WQKFOVHSHX5DJW5VOILONS4NQEX0APKY1XSXBZW2EFF&client_secret=0XTVXJHYBHSW3Q55A1MEN1L3HDU1NDARNC0JJ4RPIJPEHFWD&v=20180708')
+    .then(result => result.json())
+    .then(fetchedPlaces => {
+        //if there are items in the venue, adds them to the MapMarkers
+        if(fetchedPlaces.response.venues.length >0){
+          this.setState({mapMarkers: fetchedPlaces.response.venues});
+          return this.state.mapMarkers;
+        }else{
+          alert("Sorry we couldn't load the data. Please try again");
+        }
+      }).catch(err => console.log (err));
     }
-
-  //fetches the museums in the area
-  fetchMuseums = () => {
-      fetch('https://api.foursquare.com/v2/venues/search?ll=47.6507275,23.5765156&intent=browse&radius=1500&query=muzeu&client_id=3T544WQKFOVHSHX5DJW5VOILONS4NQEX0APKY1XSXBZW2EFF&client_secret=0XTVXJHYBHSW3Q55A1MEN1L3HDU1NDARNC0JJ4RPIJPEHFWD&v=20180708')
-      .then(result => result.json())
-      .then(fetchedMuseums => {
-          //if there are items in the venue, adds them to the museums state
-          if(fetchedMuseums.response.venues.length >0){
-            this.setState({museums: fetchedMuseums.response.venues});
-            //also sets a new proprety 'markerType' for each venue
-            this.state.museums.forEach(item => {
-                item.markerType = 'museum';
-            });
-            return this.state.museums;
-          }else{
-            alert("Sorry we couldn't load the data for Museums. Please try again");
-          }
-        }).catch(err => console.log (err));
-    }
-
-  //fetches the cinemas in the area
-  fetchCinemas = () => {
-      fetch('https://api.foursquare.com/v2/venues/search?ll=47.6507275,23.5765156&intent=browse&radius=2000&query=cinema&client_id=3T544WQKFOVHSHX5DJW5VOILONS4NQEX0APKY1XSXBZW2EFF&client_secret=0XTVXJHYBHSW3Q55A1MEN1L3HDU1NDARNC0JJ4RPIJPEHFWD&v=20180708')
-      .then(result => result.json())
-      .then(fetchedCinemas => {
-          //if there are items in the venue, adds them to the cinemas state
-          if(fetchedCinemas.response.venues.length >0){
-            this.setState({cinemas: fetchedCinemas.response.venues});
-            this.state.cinemas.forEach(item => {
-                item.markerType = 'cinema';
-            });
-            return this.state.cinemas;
-          }else{
-            alert("Sorry we couldn't load the data for Cinemas. Please try again");
-          }
-        }).catch(err => console.log (err));
-    }
-
-  //fetches the parks in the area
-  fetchParks = () => {
-      fetch('https://api.foursquare.com/v2/venues/search?ll=47.6507275,23.5765156&intent=browse&radius=2000&query=parcul&client_id=3T544WQKFOVHSHX5DJW5VOILONS4NQEX0APKY1XSXBZW2EFF&client_secret=0XTVXJHYBHSW3Q55A1MEN1L3HDU1NDARNC0JJ4RPIJPEHFWD&v=20180708')
-      .then(result => result.json())
-      .then(fetchedParks => {
-          //if there are items in the venue, adds them to the parks state
-          if(fetchedParks.response.venues.length >0){
-            this.setState({parks: fetchedParks.response.venues});
-            this.state.parks.forEach(item => {
-              item.markerType = 'park';
-            });
-            return this.state.parks;
-          }else{
-            alert("Sorry we couldn't load the data for Parks. Please try again");
-          }
-        }).catch(err => console.log (err));
-    }
-
-    //fetches the theaters in the area
-    fetchTheaters = () => {
-      fetch('https://api.foursquare.com/v2/venues/search?ll=47.6507275,23.5765156&intent=browse&radius=1500&query=teatru&client_id=3T544WQKFOVHSHX5DJW5VOILONS4NQEX0APKY1XSXBZW2EFF&client_secret=0XTVXJHYBHSW3Q55A1MEN1L3HDU1NDARNC0JJ4RPIJPEHFWD&v=20180708')
-      .then(result => result.json())
-      .then(fetchedTheaters => {
-          //if there are items in the venue, adds them to the parks state
-          if(fetchedTheaters.response.venues.length >0){
-            this.setState({theaters: fetchedTheaters.response.venues});
-            this.state.theaters.forEach(item => {
-              item.markerType = 'theater';
-            });
-            return this.state.theaters;
-          }else{
-            alert("Sorry we couldn't load the data for Theaters. Please try again");
-          }
-        }).catch(err => console.log (err));
-    }
-
-    //when all the data are fetched updates the mapMarkers state
-    updateState = () => {
-      this.fetchPlaces();
-      //creates one array for all the fetched data using spread sintax
-      let allMarkers= [...this.state.museums, ...this.state.parks, ...this.state.cinemas, ...this.state.theaters];
-      //and adds it to the state
-      this.setState({mapMarkers: allMarkers});
-      console.log (this.state.mapMarker);
-    }
-
 
     //when the user clicks on the marker opens the InfoWindow qnd changes marker's icon
     onMarkerClick = (marker, e) => {
@@ -118,7 +37,7 @@ class App extends Component {
         showInfoWindow: true,
         iconURL: "https://png.icons8.com/color/48/000000/marker.png"
       });
-      this.openInfoWindow(this.state.selectedMarker.venue.id);
+      this.openInfoWindow(this.state.selectedMarker.id);
     }
 
     //fetches the description for the marker
@@ -126,10 +45,11 @@ class App extends Component {
       fetch(`https://api.foursquare.com/v2/venues/${markerId}?&client_id=3T544WQKFOVHSHX5DJW5VOILONS4NQEX0APKY1XSXBZW2EFF&client_secret=0XTVXJHYBHSW3Q55A1MEN1L3HDU1NDARNC0JJ4RPIJPEHFWD&v=20180807`)
       .then(result => result.json())
       .then(fetchedDetails => {
-        //if the result contains a description, adds it to the parks state
+        console.log (fetchedDetails)
+        /* if the result contains a description, adds it to the parks state
         if(fetchedDetails.response.venues.description){
             this.setState({markerDescription: fetchedDetails.response.venues.description});
-        }
+        }*/
       }).catch(err => console.log (err));
     }
 
@@ -159,7 +79,7 @@ class App extends Component {
     }
 
   componentDidMount(){
-    this.updateState();
+    this.fetchPlaces();
   }
 
   render() {
@@ -170,8 +90,8 @@ class App extends Component {
         </header>
         <main className="main-container">
           <Hamburger clickHandler = {this.hideSideBar}/>
-          <Sidebar sideBarStyle={this.state.sideBarStyle} appState={this.state} activateMarker={this.onMarkerClick}/>
-          <MapContainer style={this.state.mapContainerStyle} google={this.props.google} appState={this.state} activateMarker={this.onMarkerClick} closeInfoWindow={this.closeInfoWindow}/>
+          <Sidebar sideBarStyle={this.state.sideBarStyle} allMarkers={this.state.mapMarkers} activateMarker={this.onMarkerClick}/>
+          <MapContainer google={this.props.google} infoVisibility = {this.state.showInfoWindow} selectedMarker = {this.state.selectedMarker} allMarkers = {this.state.mapMarkers} markerDescription = {this.state.markerDescription} markerIcon = {this.state.iconURL} activateMarker={this.onMarkerClick} closeInfoWindow={this.closeInfoWindow}/>
         </main>
         <footer className="app-footer">
           <p>App created for UDACITY-Google Schoolarship Program. Copyright (c) 2018 </p>
@@ -184,4 +104,4 @@ class App extends Component {
   }
 }
 
-export default GoogleApiWrapper({apiKey: 'AIzaSyChc63cHsVUo0L-UUrBYIEFF1BQGTsjyUY'})(App);
+export default GoogleApiWrapper({apiKey: 'AIzaSyC9CwH8_ONfHLb98ih45WYibT_bNAcwkPs'})(App);
