@@ -119,7 +119,16 @@ h2 {
   font-size: 1.2em;
 }
 
-.listItem :focus {
+li {
+  padding-bottom: 5px;
+}
+
+li:hover {
+    background-color: #c0c0c0;
+    cursor: pointer;
+}
+
+li:focus {
 	outline: 1px #ae0001;
 }
 

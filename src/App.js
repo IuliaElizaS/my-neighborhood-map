@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import {GoogleApiWrapper} from 'google-maps-react';
-import MapContainer from './MapContainer'
-import Sidebar from './Sidebar'
-import Hamburger from './Hamburger'
+import MapContainer from './MapContainer';
+import Sidebar from './Sidebar';
+import Hamburger from './Hamburger';
 import './App.css';
 
 class App extends Component {
@@ -16,10 +16,11 @@ class App extends Component {
     }
 
   //fetches the places to be marked on the map using foursquareAPI
-  fetchPlaces = () => {
-    fetch('https://api.foursquare.com/v2/venues/search?ll=47.6507275,23.5765156&intent=browse&radius=1800&limit=40&categoryId=4bf58dd8d48988d181941735,4bf58dd8d48988d137941735,4bf58dd8d48988d184941735,4bf58dd8d48988d15e941735,4bf58dd8d48988d163941735&client_id=3T544WQKFOVHSHX5DJW5VOILONS4NQEX0APKY1XSXBZW2EFF&client_secret=0XTVXJHYBHSW3Q55A1MEN1L3HDU1NDARNC0JJ4RPIJPEHFWD&v=20180708')
+  fetchPlaces = ()=> {
+    fetch('https://api.foursquare.com/v2/venues/search?ll=47.6507275,23.5765156&intent=browse&radius=1800&limit=35&categoryId=4bf58dd8d48988d181941735,4bf58dd8d48988d137941735,4bf58dd8d48988d15e941735,4bf58dd8d48988d184941735,4bf58dd8d48988d163941735,4bf58dd8d48988d175941735&client_id=3T544WQKFOVHSHX5DJW5VOILONS4NQEX0APKY1XSXBZW2EFF&client_secret=0XTVXJHYBHSW3Q55A1MEN1L3HDU1NDARNC0JJ4RPIJPEHFWD&v=20180708')
     .then(result => result.json())
     .then(fetchedPlaces => {
+                console.log(fetchedPlaces);
         //if there are items in the venue, adds them to the MapMarkers
         if(fetchedPlaces.response.venues.length >0){
           this.setState({mapMarkers: fetchedPlaces.response.venues});
@@ -37,7 +38,7 @@ class App extends Component {
         showInfoWindow: true,
         iconURL: "https://png.icons8.com/color/48/000000/marker.png"
       });
-      this.openInfoWindow(this.state.selectedMarker.id);
+      this.openInfoWindow(marker.id);
     }
 
     //fetches the description for the marker
@@ -89,9 +90,24 @@ class App extends Component {
           <h1 className="mainTitle"> Baia Mare, Romania - Freetime Activities Map </h1>
         </header>
         <main className="main-container">
-          <Hamburger clickHandler = {this.hideSideBar}/>
-          <Sidebar sideBarStyle={this.state.sideBarStyle} allMarkers={this.state.mapMarkers} activateMarker={this.onMarkerClick}/>
-          <MapContainer google={this.props.google} infoVisibility = {this.state.showInfoWindow} selectedMarker = {this.state.selectedMarker} allMarkers = {this.state.mapMarkers} markerDescription = {this.state.markerDescription} markerIcon = {this.state.iconURL} activateMarker={this.onMarkerClick} closeInfoWindow={this.closeInfoWindow}/>
+          <Hamburger
+            clickHandler = {this.hideSideBar}
+          />
+          <Sidebar
+            sideBarStyle={this.state.sideBarStyle}
+            allMarkers={this.state.mapMarkers}
+            activateMarker={this.onMarkerClick}
+          />
+          <MapContainer
+            google={this.props.google}
+            infoVisibility={this.state.showInfoWindow}
+            selectedMarker={this.state.selectedMarker}
+            allMarkers={this.state.mapMarkers}
+            markerDescription={this.state.markerDescription}
+            markerIcon={this.state.iconURL}
+            activateMarker={this.onMarkerClick}
+            closeInfoWindow={this.closeInfoWindow}
+          />
         </main>
         <footer className="app-footer">
           <p>App created for UDACITY-Google Schoolarship Program. Copyright (c) 2018 </p>
