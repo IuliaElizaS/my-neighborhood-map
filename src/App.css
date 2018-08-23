@@ -34,6 +34,10 @@ header {
   align-self: center;
 }
 
+.main-container:focus-within {
+  outline: 3px;
+}
+
 /* hamburger */
 .menu {
   display: block;
@@ -124,12 +128,12 @@ li {
 }
 
 li:hover {
-    background-color: #c0c0c0;
-    cursor: pointer;
+  background-color: #c0c0c0;
+  cursor: pointer;
 }
 
 li:focus {
-	outline: 1px #ae0001;
+	 background-color: #c0c0c0;
 }
 
 /* Map Container */
@@ -146,6 +150,11 @@ li:focus {
   max-width: 100%;
   max-height: 92%;
   overflow: hidden;
+}
+
+/* Marker */
+.placeMarker:focus {
+  outline: 3px dotted #ae0001;
 }
 
 

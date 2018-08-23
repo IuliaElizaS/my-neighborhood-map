@@ -12,7 +12,7 @@ class App extends Component {
       selectedMarker: {},//the selected marker object
       iconURL: "https://png.icons8.com/ultraviolet/40/000000/marker.png",// the icon for the marker on the map
       markerDescription: '',// details for the selected marker
-      sideBarStyle: {display: 'inherit'}//style for the sidebar
+      sideBarStyle: {display: ''}//style for the sidebar
     }
 
   //fetches the places to be marked on the map using foursquareAPI
@@ -70,12 +70,12 @@ class App extends Component {
     //opens and closes the sidebar if the hamburger is clicked
     hideSideBar = () => {
       console.log('menu button clicked');
-      if (this.state.sideBarStyle.display === 'none') {
+      if (this.state.sideBarStyle.display === '') {
         //if the sidebar is closed (hidden) makes it visible according to it's initial style
         this.setState({sideBarStyle: {display: 'inherit'}});
       }else{
           //if the sidebar is opened (visible) makes it hiden
-        this.setState({sideBarStyle: {display: 'none'}});
+        this.setState({sideBarStyle: {display: ''}});
       }
     }
 
@@ -85,19 +85,11 @@ class App extends Component {
 
   render() {
     return (
-      <div className="App">
-        <header aria-label="header of the page">
+      <div  tabIndex="0" className="App">
+        <header tabIndex="0" aria-label="header of the page">
           <h1 className="mainTitle"> Baia Mare, Romania - Freetime Activities Map </h1>
         </header>
         <main className="main-container">
-          <Hamburger
-            clickHandler = {this.hideSideBar}
-          />
-          <Sidebar
-            sideBarStyle={this.state.sideBarStyle}
-            allMarkers={this.state.mapMarkers}
-            activateMarker={this.onMarkerClick}
-          />
           <MapContainer
             google={this.props.google}
             infoVisibility={this.state.showInfoWindow}
@@ -108,8 +100,16 @@ class App extends Component {
             activateMarker={this.onMarkerClick}
             closeInfoWindow={this.closeInfoWindow}
           />
+          <Hamburger
+            clickHandler = {this.hideSideBar}
+          />
+          <Sidebar
+            sideBarStyle={this.state.sideBarStyle}
+            allMarkers={this.state.mapMarkers}
+            activateMarker={this.onMarkerClick}
+          />
         </main>
-        <footer className="app-footer">
+        <footer className="app-footer" tabIndex="0" >
           <p>App created for UDACITY-Google Schoolarship Program. Copyright (c) 2018 </p>
           <p>This app uses marker icons from
               <a aria-label="link to marker's icons source" href="https://icons8.com"> Icon pack by Icons8 </a>

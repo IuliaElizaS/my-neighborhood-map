@@ -29,7 +29,7 @@ onOptionChange = (option) => {
 
   render() {
     return(
-      <aside className="sidebar-container" style={this.props.sideBarStyle} >
+      <aside className="sidebar-container" tabIndex="0" style={this.props.sideBarStyle} >
         <div role="group" aria-label="markers filter options" className="marker-filter">
           <h2>Markers Filter</h2>
           <select aria-label="Choose your preferred activity"
@@ -52,8 +52,9 @@ onOptionChange = (option) => {
               this.props.allMarkers.filter(marker => marker.name.indexOf(this.state.optionId) > -1)
               .map(m =>{
                 return (
-                    <li aria-label="name of the marked place"
-                        className="listItem"
+                    <li className="listItem"
+                        tabIndex="0"
+                        aria-label="name of the marked place"
                         key={m.id}
                         onClick={(evt) => this.props.activateMarker(evt.target, evt)}>{m.name}
                     </li>
