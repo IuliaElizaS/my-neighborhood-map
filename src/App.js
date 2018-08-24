@@ -10,10 +10,15 @@ class App extends Component {
       mapMarkers: [],// all the markers
       showInfoWindow: false, //state of the Info Window: false if closed, true if opened
       selectedMarker: {},//the selected marker object
-      iconURL: "https://png.icons8.com/ultraviolet/40/000000/marker.png",// the icon for the marker on the map
+      markerIcon: {
+         url: "https://png.icons8.com/ultraviolet/40/000000/marker.png",// the icon for the marker on the map,
+         anchor: new this.props.google.maps.Point(32,32),
+         scaledSize: new this.props.google.maps.Size(32,32)
+      }
       markerPhoto: {},// photos for the selected marker
       sideBarStyle: {display: ''}//style for the sidebar
     }
+
 
   //fetches the places to be marked on the map using foursquareAPI
   fetchPlaces = ()=> {
@@ -36,7 +41,11 @@ class App extends Component {
       this.setState({
         selectedMarker: marker,
         showInfoWindow: true,
-        iconURL: "https://png.icons8.com/color/48/000000/marker.png"
+        markerIcon: {
+           url: "https://png.icons8.com/color/48/000000/marker.png",// the icon for the selected marker,
+           anchor: new this.props.google.maps.Point(32,32),
+           scaledSize: new this.props.google.maps.Size(36,36)
+        }
       });
       this.openInfoWindow(marker.id);
     }

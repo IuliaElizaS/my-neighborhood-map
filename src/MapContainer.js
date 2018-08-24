@@ -59,11 +59,7 @@ class MapContainer extends React.Component {
                         lat: mapMarker.location.lat,
                         lng: mapMarker.location.lng
                       }}
-                      icon={{
-                         url: this.props.markerIcon,
-                         anchor: new this.props.google.maps.Point(32,32),
-                         scaledSize: new this.props.google.maps.Size(35,35)
-                    }}/>
+                      icon={this.props.markerIcon}/>
                   })
                  /* if a marker is selected populates the InfoWindow */
                 (this.props.selectedMarker) ? (
