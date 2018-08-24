@@ -1,5 +1,5 @@
 import React from 'react';
-import {Map, InfoWindow, Marker, GoogleApiWrapper} from 'google-maps-react';
+import {Map, InfoWindow, Marker} from 'google-maps-react';
 import './App.css';
 
 /* MapContainer component created based on: https://www.npmjs.com/package/google-maps-react
@@ -29,7 +29,7 @@ class MapContainer extends React.Component {
             selectedMarker = {this.props.selectedMarker}
             allMarkers = {this.props.allMarkers}
             markerIcon = {this.props.markerIcon}
-            markerDescription = {this.props.markerDescription}
+            markerPhoto = {this.props.markerPhoto}
             activateMarker={this.props.activateMarker}
             closeInfoWindow={this.props.closeInfoWindow}
             infoVisibility = {this.props.infoVisibility}
@@ -42,16 +42,16 @@ class MapContainer extends React.Component {
               featureType: 'poi',
               stylers: [{'visibility': 'off'}]
           }]} >
-            { /*displays each marker on the page*/
+            <div >
+              {/* displays each marker on the page*/}
+              cosole.log(this.props.allMarkers);
               this.props.allMarkers.map(mapMarker => {
-                return(
-                /*<div key= {mapMarker.id}> */
                   <Marker
                       className="placeMarker"
                       tabIndex="0"
                       role="button"
                       aria-label="marker of the place"
-                      key= {mapMarker.location.lng}
+                      key= {mapMarker.id}
                       markerIcon = {this.props.markerIcon}
                       onClick={(evt) => this.props.activateMarker(mapMarker, evt)}
                       name={mapMarker.name}
@@ -64,36 +64,32 @@ class MapContainer extends React.Component {
                          anchor: new this.props.google.maps.Point(32,32),
                          scaledSize: new this.props.google.maps.Size(35,35)
                     }}/>
-                    /*<InfoWindow
-                        key= {mapMarker.location.lat}
-                        onClose={this.props.closeInfoWindow}
-                        visible={this.props.infoVisibility}
-                        markerDescription = {this.props.markerDescription}
-                    >
-                        <dialog className="info" aria-label="more informations about the place" >
-                            <h3 className="placeName">{mapMarker.name}</h3>
-                            {/* if the selected place has picture displays it, else provides a placeholder. Placeholder source: 'https://placeholder.com' * /
-                            (mapMarker.categories[0].icon) ? (
-                                <img className="picture" src="{mapMarker.categories[0].icon.prefix}/height36/{mapMarker.categories[0].icon.suffix}" alt= "{mapMarker.location.name}"/>
-                            ) : (
+                  })
+                 /* if a marker is selected populates the InfoWindow */
+                (this.props.selectedMarker) ? (
+                <div>
+                  <InfoWindow
+                    visible={this.props.infoVisibility}
+                    markerPhoto = {this.props.markerPhoto}
+                    selectedMarker = {this.props.selectedMarker}
+                  >
+                      <dialog className="info" aria-label="more informations about the place" >
+                          <h3 className="placeName">{this.props.selectedMarker.name}</h3>
+                          <p aria-label='address of the selected place' className="address" > {this.props.selectedMarker.location.address} Baia Mare, Romania</p>
+                          {/* if the selected place has picture displays it, else provides a placeholder. Placeholder source: 'https://placeholder.com' */
+                            (this.props.markerPhoto.prefix) ? (
+                                <img className="picture" src="{this.props.markerPhoto.prefix}height36{this.props.markerPhoto.suffix}" alt= "{this.props.selectedMarker.name}"/>
+                              ) : (
                                 <img className="picture" src="http://via.placeholder.com/50x36/ffe99b/282c4b?text=No+Image" alt= "a blank placeholder"/>
-                            )
-                            /* if the selected place has an address displays it, else only town and country will be displayed  * /
-                            (mapMarker.location.address) ? (<span aria-label='address of the selected place' className="address" >{mapMarker.location.address}, Baia Mare, Romania</span>
-                            ) : (
-                                <span aria-label='address of the selected place' className="address" > Baia Mare, Romania</span>
-                            )
-                            /* if the selected place has a description displays it * /
-                            (this.props.markerDescription.length > 1) ? (<p role='textbox' aria-label='short description of the place' className="description">{this.props.markerDescription}</p>
-                            ) : (
-                                <p role='textbox' aria-label='short description of the place' className="description">For the moment this place has no description provided</p>
-                            )}
-                          </dialog>
-                      </InfoWindow>
-                    </div> */
-                  )
-                })
-              }
+                              )
+                          }
+                        </dialog>
+                       ) : (
+                        console.log ('no infowindow to dislay')
+                      )
+                  </InfoWindow>
+                </div>
+              </div>
             </Map>
         </section>
     )

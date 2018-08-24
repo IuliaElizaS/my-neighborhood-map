@@ -180,10 +180,6 @@ h3 {
   grid-column: 1 / span 2;
 }
 
-.picture {
-  grid-column: 2;
-}
-
 .address {
   display: block;
   text-align: justify;
@@ -191,12 +187,10 @@ h3 {
   grid-column: 2;
 }
 
-.description {
-  display: block;
-  text-align: justify;
-  grid-column: 3 / span 2;
-  padding-top: 1em;
+.picture {
+  grid-column: 2;
 }
+
 
 /* ------- FOOTER --------- */
 footer {

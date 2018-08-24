@@ -11,7 +11,7 @@ class App extends Component {
       showInfoWindow: false, //state of the Info Window: false if closed, true if opened
       selectedMarker: {},//the selected marker object
       iconURL: "https://png.icons8.com/ultraviolet/40/000000/marker.png",// the icon for the marker on the map
-      markerDescription: '',// details for the selected marker
+      markerPhoto: {},// photos for the selected marker
       sideBarStyle: {display: ''}//style for the sidebar
     }
 
@@ -41,27 +41,27 @@ class App extends Component {
       this.openInfoWindow(marker.id);
     }
 
-    //fetches the description for the marker
+    //fetches the photo for the marker
     openInfoWindow = (markerId) => {
-      fetch(`https://api.foursquare.com/v2/venues/${markerId}?&client_id=3T544WQKFOVHSHX5DJW5VOILONS4NQEX0APKY1XSXBZW2EFF&client_secret=0XTVXJHYBHSW3Q55A1MEN1L3HDU1NDARNC0JJ4RPIJPEHFWD&v=20180807`)
+      fetch(`https://api.foursquare.com/v2/venues/${markerId}/photos?&client_id=3T544WQKFOVHSHX5DJW5VOILONS4NQEX0APKY1XSXBZW2EFF&client_secret=0XTVXJHYBHSW3Q55A1MEN1L3HDU1NDARNC0JJ4RPIJPEHFWD&v=20180807`)
       .then(result => result.json())
-      .then(fetchedDetails => {
-        console.log (fetchedDetails)
-        /* if the result contains a description, adds it to the parks state
-        if(fetchedDetails.response.venues.description){
-            this.setState({markerDescription: fetchedDetails.response.venues.description});
-        }*/
+      .then(fetchedPhotos => {
+        console.log (fetchedPhotos)
+        /* if the result contains photos, adds the first one to the state */
+        if(fetchedPhotos.response.photos.items.lenght>0){
+            this.setState({markerPhoto: fetchedPhotos.response.photos.items[0]});
+        }
       }).catch(err => console.log (err));
     }
 
-    //when the user clicks on the map or InfoWindow's close button hides the infowindow and deselects the marker
+    //when the user clicks on the map hides the infowindow and deselects the marker
     closeInfoWindow = () => {
       // cheks if a infowindow is opened
       if (this.state.showInfoWindow) {
         this.setState({
           showInfoWindow: false, //closes the window
           selectedMarker: null, //deselectes the marker
-          markerDescription: '',//empties the details string
+          markerPhoto: {},//removes the photos
           iconURL: "https://png.icons8.com/ultraviolet/40/000000/marker.png" //sets the marker icon to it's original icon
         })
       }
@@ -95,7 +95,7 @@ class App extends Component {
             infoVisibility={this.state.showInfoWindow}
             selectedMarker={this.state.selectedMarker}
             allMarkers={this.state.mapMarkers}
-            markerDescription={this.state.markerDescription}
+            markerPhoto={this.state.markerPhoto}
             markerIcon={this.state.iconURL}
             activateMarker={this.onMarkerClick}
             closeInfoWindow={this.closeInfoWindow}

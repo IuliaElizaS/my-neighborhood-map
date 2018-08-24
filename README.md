@@ -1,7 +1,7 @@
 
  ## My Neighborhood Map Project
 
-This is the final project for Udacity Front-End Web Developer Nanodegree Schoolarships and has only learning purpose.
+This is the final project for Udacity Front-End Web Developer Nanodegree Scholarships and has only learning purpose.
 
 In this project, students have to develop a single page application featuring a map of a neighborhood the students choose. Then students have to add functionality to this map including highlighted locations, third-party data about those locations and various ways to browse the content. The application also has to be mobile responsive.
 
@@ -33,11 +33,11 @@ For this project there is no starting code. The students have to build the app f
 
 - The Map fetched from Google Maps using Google Maps API
 
-- Places and aditional information for the places, fetched from https://foursquare.com/ using Foursquare API
+- Places and additional information for the places, fetched from https://foursquare.com/ using Foursquare API
 
 - Marker icons: https://png.icons8.com
 
-- MapContainer component addapted from: https://www.npmjs.com/package/google-maps-react
+- MapContainer component adapted from: https://www.npmjs.com/package/google-maps-react
 
  https://www.fullstackreact.com/articles/how-to-write-a-google-maps-react-component/
 
