@@ -11,6 +11,7 @@ class App extends Component {
       showInfoWindow: false, //state of the Info Window: false if closed, true if opened
       selectedMarker: {},//the selected marker object
       markerPhoto: {},// photos for the selected marker
+      optionId: '',// the category's id
       sideBarStyle: {display: ''}//style for the sidebar
     }
 
@@ -28,6 +29,24 @@ class App extends Component {
         }
       }).catch(err => console.log (err));
     }
+
+    //sets the optionId according to the filter option
+    onOptionChange = (option) => {
+        if (option === 'all'){
+          this.setState({optionId: 'a'});
+        } else if (option === 'museum'){
+          this.setState({optionId: 'Muzeu'});
+        }else if (option === 'theater'){
+          this.setState({optionId: 'Teatru'});
+        }else if (option === 'stadion'){
+          this.setState({optionId: 'Stadion'});
+        }else if (option === 'park'){
+          this.setState({optionId: 'Parc'});
+        }else if (option === 'gym'){
+          this.setState({optionId: 'Gym'});
+        }
+      }
+
 
     //when the user clicks on the marker opens the InfoWindow qnd changes marker's icon
     onMarkerClick = (marker, e) => {
@@ -57,9 +76,8 @@ class App extends Component {
       if (this.state.showInfoWindow) {
         this.setState({
           showInfoWindow: false, //closes the window
-          selectedMarker: null, //deselectes the marker
+          selectedMarker: {}, //deselects the marker
           markerPhoto: {},//removes the photos
-          iconURL: "https://png.icons8.com/ultraviolet/40/000000/marker.png" //sets the marker icon to it's original icon
         })
       }
     }
@@ -93,7 +111,7 @@ class App extends Component {
             selectedMarker={this.state.selectedMarker}
             allMarkers={this.state.mapMarkers}
             markerPhoto={this.state.markerPhoto}
-            markerIcon = {this.props.markerIcon }
+            optionId = {this.state.optionId}
             selectedMarkerIcon = {this.props.selectedMarkerIcon}
             selectedMarkerIndex = {this.props.selectedMarkerIndex}
             activateMarker={this.onMarkerClick}
@@ -105,6 +123,8 @@ class App extends Component {
           <Sidebar
             sideBarStyle={this.state.sideBarStyle}
             allMarkers={this.state.mapMarkers}
+            optionId = {this.state.optionId}
+            onOptionChange = {this.onOptionChange}
             activateMarker={this.onMarkerClick}
           />
         </main>

@@ -41,6 +41,7 @@ class MapContainer extends React.Component {
             selectedMarker = {this.props.selectedMarker}
             allMarkers = {this.props.allMarkers}
             markerPhoto = {this.props.markerPhoto}
+            optionId = {this.props.optionId}
             activateMarker={this.props.activateMarker}
             closeInfoWindow={this.props.closeInfoWindow}
             infoVisibility = {this.props.infoVisibility}
@@ -54,9 +55,9 @@ class MapContainer extends React.Component {
               stylers: [{'visibility': 'off'}]
           }]} >
             <div >
-              {/* displays each marker on the page*/}
-              console.log(this.props.allMarkers);
-              this.props.allMarkers.map(mapMarker => {
+              {/* displays the markers on the page according to the user option*/}
+              this.props.allMarkers.filter(marker => marker.name.indexOf(this.props.optionId) > -1)
+              .map(mapMarker => {
                   <Marker
                       className="placeMarker"
                       tabIndex="0"
@@ -71,16 +72,17 @@ class MapContainer extends React.Component {
                         lng: mapMarker.location.lng
                       }}
                       icon={ this.props.selectedMarker !== undefined && this.props.selectedMarker.id === mapMarker.id ? selectedMarkerIcon : markerIcon}
-                    />
-                  })
-                 /* if a marker is selected populates the InfoWindow */
-                (this.props.selectedMarker) ? (
-                <div>
-                  <InfoWindow
-                    visible={this.props.infoVisibility}
-                    markerPhoto = {this.props.markerPhoto}
-                    selectedMarker = {this.props.selectedMarker}
-                  >
+                  />
+                });
+                /* if a marker is selected populates the InfoWindow */
+               (this.props.selectedMarker) ? (
+                return (
+                  <div>
+                    <InfoWindow
+                      visible={this.props.infoVisibility}
+                      markerPhoto = {this.props.markerPhoto}
+                      selectedMarker = {this.props.selectedMarker}
+                    >
                       <dialog className="info" aria-label="more informations about the place" >
                           <h3 className="placeName">{this.props.selectedMarker.name}</h3>
                           <p aria-label='address of the selected place' className="address" > {this.props.selectedMarker.location.address} Baia Mare, Romania</p>
@@ -97,6 +99,7 @@ class MapContainer extends React.Component {
                       )
                   </InfoWindow>
                 </div>
+               )
               </div>
             </Map>
         </section>
