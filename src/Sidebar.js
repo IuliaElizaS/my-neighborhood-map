@@ -22,7 +22,6 @@ onOptionChange = (option) => {
     }
   }
 
-
   componentDidMount(){
     console.log(this.props.allMarkers); /* just for debug purpose */
   }
@@ -56,7 +55,7 @@ onOptionChange = (option) => {
                         tabIndex="0"
                         aria-label="name of the marked place"
                         key={m.id}
-                        onClick={(evt) => this.props.activateMarker(evt.target, evt)}>{m.name}
+                        onClick={(evt) => this.props.activateMarker(m, evt)}>{m.name}
                     </li>
                 )
               })

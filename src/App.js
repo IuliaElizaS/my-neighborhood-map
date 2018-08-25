@@ -10,26 +10,19 @@ class App extends Component {
       mapMarkers: [],// all the markers
       showInfoWindow: false, //state of the Info Window: false if closed, true if opened
       selectedMarker: {},//the selected marker object
-      markerIcon: {
-         url: "https://png.icons8.com/ultraviolet/40/000000/marker.png",// the icon for the marker on the map,
-         anchor: new this.props.google.maps.Point(32,32),
-         scaledSize: new this.props.google.maps.Size(32,32)
-      }
       markerPhoto: {},// photos for the selected marker
       sideBarStyle: {display: ''}//style for the sidebar
     }
-
 
   //fetches the places to be marked on the map using foursquareAPI
   fetchPlaces = ()=> {
     fetch('https://api.foursquare.com/v2/venues/search?ll=47.6507275,23.5765156&intent=browse&radius=1800&limit=35&categoryId=4bf58dd8d48988d181941735,4bf58dd8d48988d137941735,4bf58dd8d48988d15e941735,4bf58dd8d48988d184941735,4bf58dd8d48988d163941735,4bf58dd8d48988d175941735&client_id=3T544WQKFOVHSHX5DJW5VOILONS4NQEX0APKY1XSXBZW2EFF&client_secret=0XTVXJHYBHSW3Q55A1MEN1L3HDU1NDARNC0JJ4RPIJPEHFWD&v=20180708')
     .then(result => result.json())
     .then(fetchedPlaces => {
-                console.log(fetchedPlaces);
         //if there are items in the venue, adds them to the MapMarkers
         if(fetchedPlaces.response.venues.length >0){
           this.setState({mapMarkers: fetchedPlaces.response.venues});
-          return this.state.mapMarkers;
+          console.log (this.state.mapMarkers);
         }else{
           alert("Sorry we couldn't load the data. Please try again");
         }
@@ -41,11 +34,6 @@ class App extends Component {
       this.setState({
         selectedMarker: marker,
         showInfoWindow: true,
-        markerIcon: {
-           url: "https://png.icons8.com/color/48/000000/marker.png",// the icon for the selected marker,
-           anchor: new this.props.google.maps.Point(32,32),
-           scaledSize: new this.props.google.maps.Size(36,36)
-        }
       });
       this.openInfoWindow(marker.id);
     }
@@ -55,10 +43,10 @@ class App extends Component {
       fetch(`https://api.foursquare.com/v2/venues/${markerId}/photos?&client_id=3T544WQKFOVHSHX5DJW5VOILONS4NQEX0APKY1XSXBZW2EFF&client_secret=0XTVXJHYBHSW3Q55A1MEN1L3HDU1NDARNC0JJ4RPIJPEHFWD&v=20180807`)
       .then(result => result.json())
       .then(fetchedPhotos => {
-        console.log (fetchedPhotos)
         /* if the result contains photos, adds the first one to the state */
         if(fetchedPhotos.response.photos.items.lenght>0){
             this.setState({markerPhoto: fetchedPhotos.response.photos.items[0]});
+            console.log (this.state.markerPhoto);
         }
       }).catch(err => console.log (err));
     }
@@ -105,7 +93,9 @@ class App extends Component {
             selectedMarker={this.state.selectedMarker}
             allMarkers={this.state.mapMarkers}
             markerPhoto={this.state.markerPhoto}
-            markerIcon={this.state.iconURL}
+            markerIcon = {this.props.markerIcon }
+            selectedMarkerIcon = {this.props.selectedMarkerIcon}
+            selectedMarkerIndex = {this.props.selectedMarkerIndex}
             activateMarker={this.onMarkerClick}
             closeInfoWindow={this.closeInfoWindow}
           />

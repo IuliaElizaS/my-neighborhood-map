@@ -17,6 +17,18 @@ class MapContainer extends React.Component {
   }
 
   render() {
+    const markerIcon = {
+      url: "https://png.icons8.com/ultraviolet/40/000000/marker.png",// the icon for the marker on the map,
+      anchor: new this.props.google.maps.Point(32,32),
+      scaledSize: new this.props.google.maps.Size(32,32)
+    };
+
+    const selectedMarkerIcon = {
+      url: "https://png.icons8.com/color/48/000000/marker.png",// the icon for the selected marker,
+      anchor: new this.props.google.maps.Point(32,32),
+      scaledSize: new this.props.google.maps.Size(36,36)
+    };
+
     return(
       <section className="map-container" tabIndex="0">
           <Map
@@ -28,7 +40,6 @@ class MapContainer extends React.Component {
             onClick={this.props.closeInfoWindow}
             selectedMarker = {this.props.selectedMarker}
             allMarkers = {this.props.allMarkers}
-            markerIcon = {this.props.markerIcon}
             markerPhoto = {this.props.markerPhoto}
             activateMarker={this.props.activateMarker}
             closeInfoWindow={this.props.closeInfoWindow}
@@ -44,7 +55,7 @@ class MapContainer extends React.Component {
           }]} >
             <div >
               {/* displays each marker on the page*/}
-              cosole.log(this.props.allMarkers);
+              console.log(this.props.allMarkers);
               this.props.allMarkers.map(mapMarker => {
                   <Marker
                       className="placeMarker"
@@ -52,14 +63,15 @@ class MapContainer extends React.Component {
                       role="button"
                       aria-label="marker of the place"
                       key= {mapMarker.id}
-                      markerIcon = {this.props.markerIcon}
+                      selectedMarker = {this.props.selectedMarker}
                       onClick={(evt) => this.props.activateMarker(mapMarker, evt)}
                       name={mapMarker.name}
                       position={{
                         lat: mapMarker.location.lat,
                         lng: mapMarker.location.lng
                       }}
-                      icon={this.props.markerIcon}/>
+                      icon={ this.props.selectedMarker !== undefined && this.props.selectedMarker.id === mapMarker.id ? selectedMarkerIcon : markerIcon}
+                    />
                   })
                  /* if a marker is selected populates the InfoWindow */
                 (this.props.selectedMarker) ? (
