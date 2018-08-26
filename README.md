@@ -28,6 +28,14 @@ For this project there is no starting code. The students have to build the app f
 3. Start the development server with `npm start`
 4. NOTE: the service worker only works in production mode. To build the app for production run `npm run build` before `npm start`
 
+## How to use the application
+1. The map is centered on Baia Mare, a medium town from Romania, where I was born and lived for more than 30 years.
+2. My project displays some of the places where people can spend quality time.
+3. The places can be filtered by category using the filter box in the sidebar.
+4. Clicking on a place name from the list or marker on the map will highlight the place on the map and open a small window that shows a few infos about that place.
+5. Clicking on the map will close the info window and deselect the place.
+6. If you are watching the map on smaller screens you have to click the hamburger button to open, or close the sidebar.
+
 
 ## Sources
 
