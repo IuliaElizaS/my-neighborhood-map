@@ -17,7 +17,7 @@ class App extends Component {
 
   //fetches the places to be marked on the map using foursquareAPI
   fetchPlaces = ()=> {
-    fetch('https://api.foursquare.com/v2/venues/search?ll=47.6507275,23.5765156&intent=browse&radius=1800&limit=35&categoryId=4bf58dd8d48988d181941735,4bf58dd8d48988d137941735,4bf58dd8d48988d15e941735,4bf58dd8d48988d184941735,4bf58dd8d48988d163941735,4bf58dd8d48988d175941735&client_id=3T544WQKFOVHSHX5DJW5VOILONS4NQEX0APKY1XSXBZW2EFF&client_secret=0XTVXJHYBHSW3Q55A1MEN1L3HDU1NDARNC0JJ4RPIJPEHFWD&v=20180708')
+    fetch('https://api.foursquare.com/v2/venues/search?ll=47.6507275,23.5765156&intent=browse&radius=1800&limit=45&categoryId=4bf58dd8d48988d181941735,4bf58dd8d48988d137941735,4bf58dd8d48988d15e941735,4bf58dd8d48988d184941735,4bf58dd8d48988d163941735,4bf58dd8d48988d175941735&client_id=3T544WQKFOVHSHX5DJW5VOILONS4NQEX0APKY1XSXBZW2EFF&client_secret=0XTVXJHYBHSW3Q55A1MEN1L3HDU1NDARNC0JJ4RPIJPEHFWD&v=20180708')
     .then(result => result.json())
     .then(fetchedPlaces => {
         //if there are items in the venue, adds them to the MapMarkers
@@ -33,7 +33,7 @@ class App extends Component {
     //sets the optionId according to the filter option
     onOptionChange = (option) => {
         if (option === 'all'){
-          this.setState({optionId: 'a'});
+          this.setState({optionId: ''});
         } else if (option === 'museum'){
           this.setState({optionId: 'Muzeu'});
         }else if (option === 'theater'){
