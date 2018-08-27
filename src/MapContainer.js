@@ -26,7 +26,7 @@ class MapContainer extends React.Component {
     const selectedMarkerIcon = {
       url: "https://png.icons8.com/color/48/000000/marker.png",// the icon for the selected marker,
       anchor: new this.props.google.maps.Point(32,32),
-      scaledSize: new this.props.google.maps.Size(36,36)
+      scaledSize: new this.props.google.maps.Size(38,38)
     };
 
     return(
@@ -43,7 +43,7 @@ class MapContainer extends React.Component {
             markerPhoto = {this.props.markerPhoto}
             optionId = {this.props.optionId}
             activateMarker={this.props.activateMarker}
-            infoVisibility = {this.props.infoVisibility}
+            showingInfoWindow = {this.props.showingInfoWindow}
             zoom={14.25}
             initialCenter={{
               lat: 47.6573916,
@@ -65,7 +65,7 @@ class MapContainer extends React.Component {
                       aria-label="marker of the place"
                       key= {mapMarker.id}
                       selectedMarker = {this.props.selectedMarker}
-                      infoVisibility={this.props.infoVisibility}
+                      showingInfoWindow={this.props.showingInfoWindow}
                       markerPhoto = {this.props.markerPhoto}
                       onClick={(evt) => this.props.activateMarker(mapMarker, evt)}
                       name={mapMarker.name}
@@ -76,22 +76,22 @@ class MapContainer extends React.Component {
                       icon={this.props.selectedMarker !== undefined && this.props.selectedMarker.id === mapMarker.id ? selectedMarkerIcon : markerIcon}
                       >
                     {/* if a marker is selected populates the InfoWindow */}
-                      (this.props.selectedMarker) ? (
-                        return (
+                    (this.props.selectedMarker) ? (
+                      return (
                         <div>
                           {<InfoWindow
-                            visible={this.props.infoVisibility}
+                            visible={this.props.showingInfoWindow}
                             markerPhoto = {this.props.markerPhoto}
                             >
                              {<dialog className="info" aria-label="more informations about the place" >
                                 <h3 className="placeName">{mapMarker.name}</h3>
                                 <p aria-label='address of the selected place' className="address" > {mapMarker.location.address} Baia Mare, Romania</p>
                                 {/* if the selected place has picture displays it, else provides a placeholder. Placeholder source: 'https://placeholder.com' */}
-                                  (this.props.markerPhoto) ? (
-                                    <img className="picture" src= {`${this.props.markerPhoto.prefix}height36${this.props.markerPhoto.suffix}`} alt= {`${mapMarker.name}`}/>
+                                  {(this.props.markerPhoto.items !== undefined && this.props.markerPhoto.items.length >0) ? (
+                                    <img className="picture" src= {`${this.props.markerPhoto.items[0].prefix}height36${this.props.markerPhoto.items[0].suffix}`} alt= {mapMarker.name}/>
                                   ) : (
                                     <img className="picture" src="http://via.placeholder.com/50x36/ffe99b/282c4b?text=No+Image" alt= "a blank placeholder"/>
-                                  )
+                                  )}
                                 </dialog>
                               }
                             </InfoWindow>
@@ -105,7 +105,7 @@ class MapContainer extends React.Component {
                 )
               })
              }
-            </Map> */
+            </Map>
         </section>
     )
   }

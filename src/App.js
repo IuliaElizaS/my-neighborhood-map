@@ -8,7 +8,7 @@ import './App.css';
 class App extends Component {
   state = {
       mapMarkers: [],// all the markers
-      showInfoWindow: false, //state of the Info Window: false if closed, true if opened
+      showingInfoWindow: false, //state of the Info Window: false if closed, true if opened
       selectedMarker: {},//the selected marker object
       markerPhoto: {},// photos for the selected marker
       optionId: '',// the category's id
@@ -52,11 +52,11 @@ class App extends Component {
     onMarkerClick = (marker, e) => {
       this.setState({
         selectedMarker: marker,
-        showInfoWindow: true,
+        showingInfoWindow: true,
       });
-      this.openInfoWindow(this.state.selectedMarker.id);
+      this.openInfoWindow(marker.id);
       console.log (this.state.selectedMarker);
-      console.log (this.state.showInfoWindow);
+      console.log (this.state.showingInfoWindow);
     }
 
     //fetches the photo for the marker
@@ -64,12 +64,10 @@ class App extends Component {
       fetch(`https://api.foursquare.com/v2/venues/${markerId}/photos?&client_id=3T544WQKFOVHSHX5DJW5VOILONS4NQEX0APKY1XSXBZW2EFF&client_secret=0XTVXJHYBHSW3Q55A1MEN1L3HDU1NDARNC0JJ4RPIJPEHFWD&v=20180807`)
       .then(result => result.json())
       .then(fetchedPhotos => {
-        console.log(fetchedPhotos);
-        /* if the result contains photos, adds the first one to the state */
-        if(fetchedPhotos.response.photos.items.lenght>0){
-            this.setState({markerPhoto: fetchedPhotos.response.photos.items[0]});
-            console.log (this.state.markerPhoto);
-        }
+        if(fetchedPhotos.response.photos !== undefined){
+        this.setState({markerPhoto: fetchedPhotos.response.photos});
+        };
+        console.log(this.state.markerPhoto);
       }).catch(err => console.log (err));
     }
 
@@ -78,7 +76,7 @@ class App extends Component {
       // cheks if a infowindow is opened
       if (this.state.showInfoWindow) {
         this.setState({
-          showInfoWindow: false, //closes the window
+          showingInfoWindow: false, //closes the window
           selectedMarker: {}, //deselects the marker
           markerPhoto: {},//removes the photos
         })
@@ -110,7 +108,7 @@ class App extends Component {
         <main className="main-container">
           <MapContainer
             google={this.props.google}
-            infoVisibility={this.state.showInfoWindow}
+            showingInfoWindow={this.state.showingInfoWindow}
             selectedMarker={this.state.selectedMarker}
             allMarkers={this.state.mapMarkers}
             markerPhoto={this.state.markerPhoto}

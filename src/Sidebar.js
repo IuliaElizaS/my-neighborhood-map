@@ -31,7 +31,8 @@ class Sidebar extends React.Component {
                         tabIndex="0"
                         aria-label="name of the marked place"
                         key={m.id}
-                        onClick={(evt) => this.props.activateMarker(m, evt)}>{m.name}
+                        onClick={(evt) => this.props.activateMarker(m, evt)}
+                      >{m.name}
                     </li>
                 )
               })
