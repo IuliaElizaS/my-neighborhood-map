@@ -9,7 +9,7 @@ and https://www.fullstackreact.com/articles/how-to-write-a-google-maps-react-com
 class MapContainer extends React.Component {
   //alerts the user when the map fails loading due to authentication failure. Method suggested by awesome Udacity comunity :)
   gm_authFailure = () => {
-     alert ('You will not be able to see the map. There was an error with your authentication.');
+     alert ('You will not be able to see the map. There was an error with the authentication.');
   }
 
   componentDidMount(){
@@ -65,7 +65,7 @@ class MapContainer extends React.Component {
                       aria-label="marker of the place"
                       key= {mapMarker.id}
                       selectedMarker = {this.props.selectedMarker}
-                      /*visible={this.props.infoVisibility}*/
+                      infoVisibility={this.props.infoVisibility}
                       markerPhoto = {this.props.markerPhoto}
                       onClick={(evt) => this.props.activateMarker(mapMarker, evt)}
                       name={mapMarker.name}
@@ -77,17 +77,18 @@ class MapContainer extends React.Component {
                       >
                     {/* if a marker is selected populates the InfoWindow */}
                       (this.props.selectedMarker) ? (
+                        return (
                         <div>
                           {<InfoWindow
                             visible={this.props.infoVisibility}
                             markerPhoto = {this.props.markerPhoto}
                             >
-                            { <dialog className="info" aria-label="more informations about the place" >
+                             {<dialog className="info" aria-label="more informations about the place" >
                                 <h3 className="placeName">{mapMarker.name}</h3>
                                 <p aria-label='address of the selected place' className="address" > {mapMarker.location.address} Baia Mare, Romania</p>
                                 {/* if the selected place has picture displays it, else provides a placeholder. Placeholder source: 'https://placeholder.com' */}
-                                  (this.props.markerPhoto.prefix) ? (
-                                    <img className="picture" src="{this.props.markerPhoto.prefix}height36{this.props.markerPhoto.suffix}" alt= "{mapMarker.name}"/>
+                                  (this.props.markerPhoto) ? (
+                                    <img className="picture" src= {`${this.props.markerPhoto.prefix}height36${this.props.markerPhoto.suffix}`} alt= {`${mapMarker.name}`}/>
                                   ) : (
                                     <img className="picture" src="http://via.placeholder.com/50x36/ffe99b/282c4b?text=No+Image" alt= "a blank placeholder"/>
                                   )
@@ -96,6 +97,7 @@ class MapContainer extends React.Component {
                             </InfoWindow>
                            }
                           </div>
+                          )
                         ) : (
                         console.log ('no infowindow to display')
                       ),

@@ -54,7 +54,9 @@ class App extends Component {
         selectedMarker: marker,
         showInfoWindow: true,
       });
-      this.openInfoWindow(marker.id);
+      this.openInfoWindow(this.state.selectedMarker.id);
+      console.log (this.state.selectedMarker);
+      console.log (this.state.showInfoWindow);
     }
 
     //fetches the photo for the marker
@@ -62,6 +64,7 @@ class App extends Component {
       fetch(`https://api.foursquare.com/v2/venues/${markerId}/photos?&client_id=3T544WQKFOVHSHX5DJW5VOILONS4NQEX0APKY1XSXBZW2EFF&client_secret=0XTVXJHYBHSW3Q55A1MEN1L3HDU1NDARNC0JJ4RPIJPEHFWD&v=20180807`)
       .then(result => result.json())
       .then(fetchedPhotos => {
+        console.log(fetchedPhotos);
         /* if the result contains photos, adds the first one to the state */
         if(fetchedPhotos.response.photos.items.lenght>0){
             this.setState({markerPhoto: fetchedPhotos.response.photos.items[0]});

@@ -2,11 +2,6 @@ import React from 'react'
 import './App.css'
 
 class Sidebar extends React.Component {
-
-  componentDidMount(){
-    console.log(this.props.allMarkers); /* just for debug purpose */
-  }
-
   render() {
     return(
       <aside className="sidebar-container" tabIndex="0" style={this.props.sideBarStyle} >
